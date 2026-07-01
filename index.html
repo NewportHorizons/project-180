@@ -1,193 +1,87 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Project 180 | Home HIIT</title>
-  <link rel="stylesheet" href="styles.css"/>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Project 180 | Flex Training</title>
+  <style>
+    :root{--bg:#0b1018;--card:#141d28;--card2:#1d2938;--line:#2b3a4c;--text:#f6f9fd;--muted:#9aabba;--accent:#38a8ff;--accent2:#8ed8ff;--good:#65d698;--warn:#ffd166;--danger:#ff6b6b}
+    *{box-sizing:border-box}body{margin:0;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:radial-gradient(circle at top left,#183650 0,#0b1018 44%);color:var(--text)}
+    button,input,textarea,select{font:inherit}button{border:0;border-radius:14px;background:var(--accent);color:#06111c;font-weight:850;padding:12px 16px;cursor:pointer}
+    button.secondary{background:#273447;color:var(--text)}button.ghost{background:transparent;border:1px solid var(--line);color:var(--text)}button.danger{background:var(--danger);color:#260909}
+    select,input,textarea{width:100%;background:#0f151e;border:1px solid var(--line);color:var(--text);border-radius:13px;padding:12px}textarea{min-height:92px;resize:vertical}
+    .shell{display:grid;grid-template-columns:286px 1fr;min-height:100vh}.side{padding:28px;border-right:1px solid var(--line);background:rgba(11,16,24,.87);position:sticky;top:0;height:100vh}
+    .brand{display:flex;gap:14px;align-items:center;margin-bottom:28px}.logo{width:60px;height:60px;border-radius:19px;background:linear-gradient(135deg,var(--accent),#0d61ff);display:grid;place-items:center;font-weight:950;box-shadow:0 20px 46px rgba(0,0,0,.35)}
+    h1,h2,h3{margin:0}.brand h1{font-size:22px}.brand p,.muted{color:var(--muted)}nav{display:grid;gap:10px}.nav{background:transparent;color:var(--muted);text-align:left;border:1px solid transparent}
+    .nav.active,.nav:hover{background:var(--card);border-color:var(--line);color:var(--text)}.side-card{margin-top:24px;padding:18px;border-radius:20px;border:1px solid rgba(56,168,255,.30);background:linear-gradient(135deg,rgba(56,168,255,.18),rgba(255,255,255,.04))}
+    main{padding:34px;max-width:1320px;width:100%}.page{display:none}.page.active{display:block}
+    .hero{display:grid;grid-template-columns:1fr 260px;gap:22px;border:1px solid rgba(56,168,255,.28);border-radius:30px;padding:34px;background:linear-gradient(135deg,rgba(56,168,255,.22),rgba(20,29,40,.95));box-shadow:0 24px 70px rgba(0,0,0,.28)}
+    .eyebrow{margin:0 0 10px;text-transform:uppercase;letter-spacing:.22em;color:var(--accent2);font-size:12px;font-weight:900}.hero h2{font-size:44px;line-height:1.02;margin-bottom:12px}.hero p{font-size:18px;line-height:1.5}
+    .hero-panel{background:rgba(0,0,0,.24);border:1px solid var(--line);border-radius:22px;padding:22px;text-align:center;display:grid;place-items:center}.hero-panel strong{font-size:52px;color:var(--accent2)}
+    .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:20px 0}.metric,.panel,.card,.timer-card{background:rgba(20,29,40,.90);border:1px solid var(--line);border-radius:22px;padding:20px;box-shadow:0 12px 36px rgba(0,0,0,.18)}
+    .metric span{display:block;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.14em}.metric strong{display:block;font-size:28px;margin-top:8px}
+    .top{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:18px}.top h2{font-size:36px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+    .card{position:relative;overflow:hidden}.card:before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(56,168,255,.12),transparent 50%);pointer-events:none}
+    .banner{display:flex;justify-content:space-between;gap:8px;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.14em}.tag{color:var(--accent2);font-weight:900}.card h3{font-size:22px;margin:16px 0 8px}.card p{color:var(--muted);line-height:1.45;min-height:68px}
+    .filters{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:18px}.form{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.form label{display:grid;gap:7px;color:var(--muted);font-size:13px}.wide{grid-column:1/-1}
+    .logrow{display:grid;grid-template-columns:1fr 1.2fr .8fr 1fr 2fr;gap:10px;border-bottom:1px solid var(--line);padding:12px 0;color:var(--muted)}.logrow strong{color:var(--text)}
+    .bodyrow{display:grid;grid-template-columns:1fr 1fr 1fr 1fr 2fr;gap:10px;border-bottom:1px solid var(--line);padding:12px 0;color:var(--muted)}.bodyrow strong{color:var(--text)}
+    .modal{position:fixed;inset:0;display:grid;place-items:center;background:rgba(0,0,0,.72);padding:22px;z-index:20}.modal-content{background:var(--card);border:1px solid var(--line);border-radius:28px;max-width:1080px;width:100%;max-height:90vh;overflow:auto;padding:28px;box-shadow:0 24px 80px rgba(0,0,0,.48)}
+    .modal-head{display:flex;justify-content:space-between;gap:18px;border-bottom:1px solid var(--line);padding-bottom:18px;margin-bottom:18px}.gtx-screen{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+    .block{background:#0f151e;border:1px solid var(--line);border-radius:18px;padding:16px}.block h4{margin:0 0 10px;color:var(--accent2);letter-spacing:.16em;text-transform:uppercase;font-size:13px}.block .time{display:inline-block;background:rgba(56,168,255,.14);border:1px solid rgba(56,168,255,.26);border-radius:999px;color:var(--accent2);font-size:12px;padding:4px 9px;margin-bottom:10px}.block ul{margin:0;padding-left:18px;line-height:1.55}
+    .targets{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-top:14px}.target{background:#0f151e;border:1px solid var(--line);border-radius:14px;padding:12px}.target span{display:block;color:var(--muted);font-size:12px}.target strong{display:block;margin-top:4px}
+    .timer-layout{display:grid;grid-template-columns:420px 1fr;gap:18px}.timer-card{text-align:center}.timer-card .label{color:var(--accent2);text-transform:uppercase;letter-spacing:.18em;font-weight:900}#timerDisplay{font-size:76px;font-weight:950;letter-spacing:-.06em;margin:8px 0;display:block}.timer-buttons{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+    canvas{width:100%;background:#0f151e;border:1px solid var(--line);border-radius:18px}.chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.pill-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.pill{border:1px solid var(--line);background:#0f151e;color:var(--muted);border-radius:999px;padding:7px 10px;font-size:12px}
+    .rules{display:grid;gap:12px}.rules div{display:grid;grid-template-columns:260px 1fr;gap:12px;border-bottom:1px solid var(--line);padding:12px 0}.rules span{color:var(--muted)}
+    @media(max-width:920px){.shell{grid-template-columns:1fr}.side{position:relative;height:auto}.hero,.timer-layout,.chart-grid{grid-template-columns:1fr}.metrics,.form,.filters,.gtx-screen{grid-template-columns:1fr}.hero h2{font-size:32px}main{padding:20px}.logrow,.bodyrow{grid-template-columns:1fr}}
+  </style>
 </head>
 <body>
-  <div class="app-shell">
-    <aside class="sidebar">
-      <div class="brand">
-        <div class="brand-mark">180</div>
-        <div>
-          <h1>Project 180</h1>
-          <p>Home HIIT System</p>
-        </div>
-      </div>
-      <nav>
-        <button class="nav active" data-page="dashboard">Dashboard</button>
-        <button class="nav" data-page="workouts">Workouts</button>
-        <button class="nav" data-page="timer">Timer</button>
-        <button class="nav" data-page="log">Log</button>
-        <button class="nav" data-page="progress">Progress</button>
-      </nav>
-      <div class="side-card">
-        <strong>Goal</strong>
-        <span>180–185 lb • visible abs • stronger upper body</span>
-      </div>
-    </aside>
-
-    <main>
-      <section id="dashboard" class="page active">
-        <div class="hero">
-          <div>
-            <p class="eyebrow">Weeks 1–4</p>
-            <h2>Upper body + abs biased HIIT built around your home gym.</h2>
-            <p class="hero-text">GTX-style blocks, treadmill substitutions for sled work, progressive overload, and local tracking.</p>
-          </div>
-          <div class="hero-panel">
-            <span class="big-number" id="completionPct">0%</span>
-            <span>Workout completion</span>
-          </div>
-        </div>
-
-        <div class="metrics-grid">
-          <div class="metric"><span>Workouts Done</span><strong id="workoutsDone">0 / 20</strong></div>
-          <div class="metric"><span>Last Weight</span><strong id="lastWeight">—</strong></div>
-          <div class="metric"><span>Avg RPE</span><strong id="avgRpe">—</strong></div>
-          <div class="metric"><span>Last Calories</span><strong id="lastCalories">—</strong></div>
-        </div>
-
-        <div class="panel">
-          <div class="panel-head">
-            <h3>This Week</h3>
-            <button class="ghost" onclick="window.app.showPage('workouts')">Open Workouts</button>
-          </div>
-          <div id="weekCards" class="week-cards"></div>
-        </div>
-      </section>
-
-      <section id="workouts" class="page">
-        <div class="topline">
-          <div>
-            <p class="eyebrow">Program</p>
-            <h2>Workout Library</h2>
-          </div>
-          <select id="weekFilter">
-            <option value="1">Week 1</option>
-            <option value="2">Week 2</option>
-            <option value="3">Week 3</option>
-            <option value="4">Week 4</option>
-          </select>
-        </div>
-        <div id="workoutList" class="workout-list"></div>
-      </section>
-
-      <section id="timer" class="page">
-        <div class="topline">
-          <div>
-            <p class="eyebrow">Training Mode</p>
-            <h2>Workout Timer</h2>
-          </div>
-          <select id="timerWorkoutSelect"></select>
-        </div>
-
-        <div class="timer-layout">
-          <div class="timer-card">
-            <span id="timerLabel">Ready</span>
-            <strong id="timerDisplay">00:00</strong>
-            <p id="timerStep">Choose a workout and press Start Block.</p>
-            <div class="timer-buttons">
-              <button onclick="window.app.startTimer()">Start Block</button>
-              <button class="secondary" onclick="window.app.pauseTimer()">Pause</button>
-              <button class="secondary" onclick="window.app.nextTimerStep()">Next</button>
-              <button class="danger" onclick="window.app.resetTimer()">Reset</button>
-            </div>
-          </div>
-          <div class="panel">
-            <h3>Current Workout</h3>
-            <div id="timerWorkoutDetail"></div>
-          </div>
-        </div>
-      </section>
-
-      <section id="log" class="page">
-        <div class="topline">
-          <div>
-            <p class="eyebrow">Track</p>
-            <h2>Log Workout</h2>
-          </div>
-        </div>
-        <form id="logForm" class="log-form">
-          <label>Workout
-            <select name="workoutId" id="logWorkoutSelect"></select>
-          </label>
-          <label>Date
-            <input name="date" type="date" required>
-          </label>
-          <label>Morning weight
-            <input name="weight" type="number" step="0.1" placeholder="194.9">
-          </label>
-          <label>Calories burned
-            <input name="calories" type="number" placeholder="650">
-          </label>
-          <label>Avg HR
-            <input name="avgHr" type="number" placeholder="142">
-          </label>
-          <label>RPE 1–10
-            <input name="rpe" type="number" min="1" max="10" placeholder="8">
-          </label>
-          <label class="wide">Notes
-            <textarea name="notes" placeholder="Weights used, pain, energy, what to adjust next time..."></textarea>
-          </label>
-          <button type="submit">Save Workout</button>
-        </form>
-
-        <div class="panel">
-          <div class="panel-head">
-            <h3>Recent Logs</h3>
-            <button class="ghost" onclick="window.app.exportLogs()">Export JSON</button>
-          </div>
-          <div id="recentLogs"></div>
-        </div>
-      </section>
-
-      <section id="progress" class="page">
-        <div class="topline">
-          <div>
-            <p class="eyebrow">Dashboard</p>
-            <h2>Progress</h2>
-          </div>
-          <button class="ghost" onclick="window.print()">Print</button>
-        </div>
-        <div class="chart-grid">
-          <div class="panel">
-            <h3>Body Weight Trend</h3>
-            <canvas id="weightChart" width="600" height="260"></canvas>
-          </div>
-          <div class="panel">
-            <h3>Calories Burned</h3>
-            <canvas id="calChart" width="600" height="260"></canvas>
-          </div>
-        </div>
-        <div class="panel">
-          <h3>Weekly Review Rules</h3>
-          <div class="rules">
-            <div><strong>If weight is dropping &gt;2 lb/week:</strong><span>Keep training intensity but watch recovery and protein.</span></div>
-            <div><strong>If weight is flat 10+ days:</strong><span>Add 10 min Zone 2 after two sessions or tighten weekend calories.</span></div>
-            <div><strong>If strength drops 2 workouts in a row:</strong><span>Reduce sprint volume by 20% for one week.</span></div>
-            <div><strong>If abs are the focus:</strong><span>Do core with control. No sloppy reps just to feel burn.</span></div>
-          </div>
-        </div>
-      </section>
-    </main>
-  </div>
-
-  <template id="workoutTemplate">
-    <article class="workout-card">
-      <div class="workout-banner">
-        <span class="tag"></span>
-        <span class="duration"></span>
-      </div>
-      <h3></h3>
-      <p></p>
-      <button>Open</button>
-    </article>
-  </template>
-
-  <script src="data.js"></script>
-  <script src="app.js"></script>
+<div class="shell">
+  <aside class="side">
+    <div class="brand"><div class="logo">180</div><div><h1>Project 180</h1><p>Flexible Home HIIT</p></div></div>
+    <nav>
+      <button class="nav active" data-page="dashboard">Dashboard</button>
+      <button class="nav" data-page="workouts">Pick Workout</button>
+      <button class="nav" data-page="timer">Timer</button>
+      <button class="nav" data-page="log">Workout Log</button>
+      <button class="nav" data-page="body">Body Log</button>
+      <button class="nav" data-page="progress">Progress</button>
+    </nav>
+    <div class="side-card"><strong>Use this when</strong><p class="muted">You do not make GTX or CTR. Pick the body focus, run the 20–25 min cardio primer, then complete GTX-style blocks.</p></div>
+  </aside>
+  <main>
+    <section id="dashboard" class="page active">
+      <div class="hero"><div><p class="eyebrow">Flexible Training System</p><h2>GTX-style home workouts without being locked into Monday–Friday.</h2><p class="muted">Log GTX, CTR Pilates, walks, hikes, and home workouts. Pick Chest, Back, Abs, Full Body, Conditioning, Shoulders/Arms, or Lower Maintenance whenever you need a home session.</p></div><div class="hero-panel"><strong id="homeDone">0</strong><span class="muted">home workouts logged</span></div></div>
+      <div class="metrics"><div class="metric"><span>Last Weight</span><strong id="metricWeight">—</strong></div><div class="metric"><span>7-Day Weight Avg</span><strong id="metricAvgWeight">—</strong></div><div class="metric"><span>Classes Logged</span><strong id="metricClasses">0</strong></div><div class="metric"><span>Last Calories</span><strong id="metricCalories">—</strong></div></div>
+      <div class="panel"><div class="top"><h3>Recommended Today</h3><button class="ghost" onclick="showPage('workouts')">Choose Workout</button></div><div id="recommendedCards" class="grid"></div></div>
+    </section>
+    <section id="workouts" class="page"><div class="top"><div><p class="eyebrow">Choose What You Need</p><h2>Workout Library</h2></div></div><div class="filters"><label><span class="muted">Focus</span><select id="focusFilter"></select></label><label><span class="muted">Intensity</span><select id="intensityFilter"><option value="all">All</option><option>Power</option><option>Resistance</option><option>Conditioning</option><option>Recovery</option></select></label><label><span class="muted">Cardio length</span><select id="cardioFilter"><option value="all">All</option><option value="20">20 min</option><option value="25">25 min</option></select></label></div><div id="workoutList" class="grid"></div></section>
+    <section id="timer" class="page"><div class="top"><div><p class="eyebrow">Training Mode</p><h2>Workout Timer</h2></div><select id="timerSelect"></select></div><div class="timer-layout"><div class="timer-card"><div id="timerLabel" class="label">Ready</div><strong id="timerDisplay">00:00</strong><p id="timerText" class="muted">Pick a workout and press start.</p><div class="timer-buttons"><button onclick="startTimer()">Start</button><button class="secondary" onclick="pauseTimer()">Pause</button><button class="secondary" onclick="nextStep()">Next</button><button class="danger" onclick="resetTimer()">Reset</button></div></div><div class="panel"><h3>Current Workout</h3><div id="timerDetail"></div></div></div></section>
+    <section id="log" class="page"><div class="top"><div><p class="eyebrow">Training History</p><h2>Workout Log</h2></div></div><form id="workoutLogForm" class="form"><label>Session Type<select name="sessionType" id="sessionType"><option>Home Workout</option><option>GTX Class</option><option>CTR Pilates</option><option>Walk / Hike</option><option>Other</option></select></label><label>Workout / Focus<select name="workoutId" id="logWorkoutSelect"></select></label><label>Date<input name="date" type="date" required></label><label>Calories Burned<input name="calories" type="number" placeholder="650"></label><label>Avg HR<input name="avgHr" type="number" placeholder="142"></label><label>RPE 1–10<input name="rpe" type="number" min="1" max="10" placeholder="8"></label><label class="wide">Notes<textarea name="notes" placeholder="Weights used, class type, treadmill speed/incline, pain, energy, what to adjust next time..."></textarea></label><button type="submit">Save Workout</button></form><div class="panel"><div class="top"><h3>Recent Workouts</h3><button class="ghost" onclick="exportAll()">Export Data</button></div><div id="recentWorkouts"></div></div></section>
+    <section id="body" class="page"><div class="top"><div><p class="eyebrow">Body Tracking</p><h2>Body Log</h2></div></div><form id="bodyLogForm" class="form"><label>Date<input name="date" type="date" required></label><label>Morning Weight<input name="weight" type="number" step="0.1" placeholder="194.9" required></label><label>Waist<input name="waist" type="number" step="0.1" placeholder="36.0"></label><label>Body Fat %<input name="bodyFat" type="number" step="0.1" placeholder="17.5"></label><label class="wide">Notes<textarea name="notes" placeholder="Progress photo, sodium, sleep, soreness, class day, etc."></textarea></label><button type="submit">Save Body Entry</button></form><div class="panel"><div class="top"><h3>Recent Body Entries</h3><button class="ghost" onclick="showPage('progress')">View Charts</button></div><div id="recentBody"></div></div></section>
+    <section id="progress" class="page"><div class="top"><div><p class="eyebrow">Dashboard</p><h2>Progress</h2></div><button class="ghost" onclick="window.print()">Print</button></div><div class="chart-grid"><div class="panel"><h3>Body Weight Trend</h3><canvas id="weightChart" width="600" height="260"></canvas></div><div class="panel"><h3>Workout Calories</h3><canvas id="calChart" width="600" height="260"></canvas></div></div><div class="panel"><h3>Weekly Review Rules</h3><div class="rules"><div><strong>If GTX/CTR count is high:</strong><span>Use home workouts as targeted gaps: Chest, Back, Abs, or Shoulders/Arms.</span></div><div><strong>If weight is flat 10+ days:</strong><span>Add 10 min Zone 2 after two sessions or tighten weekend calories.</span></div><div><strong>If recovery is poor:</strong><span>Pick Abs/Core or Recovery instead of Power Full Body.</span></div><div><strong>Home workout standard:</strong><span>20–25 min cardio primer first, then timed GTX-style blocks.</span></div></div></div></section>
+  </main>
+</div>
+<script>
+const WORKOUTS=[{id:'chest-power-1',focus:'Chest / Push',intensity:'Power',title:'Chest + Abs Power',subtitle:'Upper chest, shoulders, triceps, lower abs',total:'55–60 min',cardioMins:25,cardio:['5:00 Zone 1 build','5:00 Zone 2 incline walk','5:00 Zone 3 run/walk','5 rounds: 1:00 hard + 1:00 easy','Finish: 2:00 Zone 2'],blocks:[{name:'Block 1',time:12,items:['DB Flat Bench Press x10','Standing DB Shoulder Press x10','Incline Walk 60 sec @ 10–12%','Repeat until time']},{name:'Block 2',time:12,items:['Incline DB Bench x12','Push-up to Pike x8','Med Ball Slam x15','Sprint 30 sec + Walk 45 sec']},{name:'Core',time:10,items:['Dead Bug x12/side','Plank 45 sec','Suitcase Carry 45 sec/side','Reverse Crunch x15']}],targets:{'DB Bench':'60 lb','Incline DB Bench':'50 lb','Shoulder Press':'35 lb','Suitcase Carry':'70 lb'}},{id:'back-resistance-1',focus:'Back / Pull',intensity:'Resistance',title:'Back Width + Core',subtitle:'Lats, rear delts, biceps, anti-rotation core',total:'55–60 min',cardioMins:20,cardio:['4:00 Zone 1','4:00 Zone 2','4:00 Zone 3','4 rounds: 1:00 incline push + 1:00 easy','Cool 0–2:00 if needed'],blocks:[{name:'Block 1',time:12,items:['Single Arm DB Row x10/side','Band Lat Pulldown x15','Incline Walk 60 sec','Repeat until time']},{name:'Block 2',time:12,items:['Rear Delt Fly x12','Hammer Curl x12','Farmer Carry 60 sec','Mountain Climber 30 sec']},{name:'Core',time:10,items:['Pallof Press x12/side','Side Plank 40 sec/side','Stability Ball Rollout x12','Russian Twist x20']}],targets:{'1-Arm DB Row':'70 lb','Hammer Curl':'30 lb','Rear Delt Fly':'20 lb','Farmer Carry':'70 lb each'}},{id:'abs-core-1',focus:'Abs / Core',intensity:'Resistance',title:'Abs + Core Control',subtitle:'Lower abs, obliques, anti-rotation, trunk stability',total:'50–55 min',cardioMins:20,cardio:['5:00 incline walk Zone 2','5:00 Zone 3 intervals','5:00 incline build','5:00 steady Zone 2/3'],blocks:[{name:'Block 1',time:10,items:['Half Ball Plank 45 sec','Dead Bug x12/side','Med Ball Slam x15','Repeat']},{name:'Block 2',time:12,items:['Stability Ball Rollout x12','Suitcase Carry 45 sec/side','Reverse Crunch x15','Incline Walk 60 sec']},{name:'Core',time:12,items:['Pallof Press x12/side','Side Plank Reach x10/side','Hollow Hold 30 sec','Russian Twist x20']}],targets:{'Suitcase Carry':'60–70 lb','Med Ball Slam':'Weighted ball','Pallof Press':'Band','Rollout':'Bodyweight'}},{id:'fullbody-power-1',focus:'Full Body',intensity:'Power',title:'Full Body GTX Replacement',subtitle:'Best replacement when you miss a GTX class',total:'60 min',cardioMins:25,cardio:['5:00 Zone 1/2','5:00 Zone 3 incline','5:00 1:00 hard / 1:00 easy','5:00 Zone 3 steady','5:00 incline push'],blocks:[{name:'Block 1',time:12,items:['KB Swing x20','Goblet Squat x12','Push-up x12','Run 45 sec']},{name:'Block 2',time:12,items:['DB Thruster x10','Renegade Row x10 total','Med Ball Slam x15','Incline Walk 60 sec']},{name:'Core',time:10,items:['Leg Raise x15','Plank Shoulder Tap x20','Russian Twist x20','Hollow Hold 30 sec']}],targets:{'KB Swing':'53 lb','Goblet Squat':'60 lb','DB Thruster':'30 lb each','Renegade Row':'35 lb'}},{id:'conditioning-1',focus:'Conditioning',intensity:'Conditioning',title:'Cardio Heavy Conditioning',subtitle:'Higher calorie burn, less heavy lifting',total:'55–60 min',cardioMins:25,cardio:['5:00 Zone 2','10:00 alternating 1:00 Zone 4 / 1:00 Zone 2','5:00 incline Zone 3','5:00 steady finish'],blocks:[{name:'Block 1',time:10,items:['Med Ball Slam x15','KB Swing x20','Incline Walk 60 sec','Repeat']},{name:'Block 2',time:10,items:['DB Step-up x10/side','Push-up x12','Mountain Climber 40 sec','Repeat']},{name:'Core',time:10,items:['Half Ball Plank 45 sec','Toe Touch x20','Reverse Crunch x15','Side Plank 30 sec/side']}],targets:{'KB Swing':'44–53 lb','DB Step-up':'25–35 lb each','Med Ball':'Weighted ball','Push-up':'Bodyweight'}},{id:'shoulders-arms-1',focus:'Shoulders / Arms',intensity:'Resistance',title:'Shoulders + Arms Pump',subtitle:'Lateral delts, arms, upper-body visual pop',total:'50–55 min',cardioMins:20,cardio:['5:00 Zone 1/2','5:00 incline Zone 3','5:00 30 sec hard / 60 sec easy','5:00 Zone 2'],blocks:[{name:'Block 1',time:12,items:['DB Shoulder Press x10','Lateral Raise x15','Band Face Pull x15','Incline Walk 45 sec']},{name:'Block 2',time:12,items:['Hammer Curl x12','Overhead Triceps Extension x12','Rear Delt Fly x12','Med Ball Slam x12']},{name:'Core',time:8,items:['Pallof Press x12/side','Plank 60 sec','Dead Bug x12/side']}],targets:{'Shoulder Press':'35 lb','Lateral Raise':'20 lb','Hammer Curl':'30 lb','Rear Delt Fly':'20 lb'}},{id:'lower-maintenance-1',focus:'Lower Maintenance',intensity:'Resistance',title:'Leg Maintenance + Core',subtitle:'Keep legs strong without taking over the week',total:'50–55 min',cardioMins:20,cardio:['5:00 Zone 2','5:00 incline Zone 3','5:00 steady','5:00 incline finish'],blocks:[{name:'Block 1',time:12,items:['Goblet Squat x12','DB Romanian Deadlift x10','Incline Walk 60 sec','Repeat']},{name:'Block 2',time:12,items:['Reverse Lunge x8/side','KB Dead Stop Swing x12','Bench Step-up x10/side','Repeat']},{name:'Core',time:10,items:['Suitcase Carry 45 sec/side','Side Plank 35 sec/side','Reverse Crunch x15','Pallof Press x12/side']}],targets:{'Goblet Squat':'60 lb','DB RDL':'50 lb each','Reverse Lunge':'35 lb each','KB Swing':'53 lb'}},{id:'recovery-core-1',focus:'Recovery / Mobility',intensity:'Recovery',title:'Recovery Cardio + Mobility Core',subtitle:'Use after hard GTX/CTR days or poor sleep',total:'45–50 min',cardioMins:25,cardio:['25:00 Zone 2 incline walk only','Keep nose-breathing pace','No sprints'],blocks:[{name:'Mobility',time:10,items:['Worlds Greatest Stretch x5/side','Hip Flexor Stretch x45 sec/side','Thoracic Rotation x8/side','Hamstring Scoop x10']},{name:'Core Control',time:10,items:['Dead Bug x12/side','Bird Dog x10/side','Pallof Press x12/side','Side Plank 30 sec/side']},{name:'Cooldown',time:5,items:['Easy walk','Breathing','Log soreness/energy']}],targets:{'Cardio':'Zone 2','Core':'Controlled','RPE':'5–6','Goal':'Recover'}}];
+const focusOptions=['All','Chest / Push','Back / Pull','Abs / Core','Full Body','Conditioning','Shoulders / Arms','Lower Maintenance','Recovery / Mobility'];const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];const workoutKey='project180_workouts_v2',bodyKey='project180_body_v2';let timer={idx:0,sec:0,int:null,steps:[]};
+function getWorkouts(){return JSON.parse(localStorage.getItem(workoutKey)||'[]')}function saveWorkouts(v){localStorage.setItem(workoutKey,JSON.stringify(v))}function getBody(){return JSON.parse(localStorage.getItem(bodyKey)||'[]')}function saveBody(v){localStorage.setItem(bodyKey,JSON.stringify(v))}
+function showPage(id){$$('.page').forEach(p=>p.classList.remove('active'));$('#'+id).classList.add('active');$$('.nav').forEach(n=>n.classList.toggle('active',n.dataset.page===id));if(id==='progress')drawCharts()}window.showPage=showPage;$$('.nav').forEach(n=>n.onclick=()=>showPage(n.dataset.page));
+function blockHtml(b){return `<div class="block"><h4>${b.name}</h4><span class="time">${b.time} min</span><ul>${b.items.map(i=>`<li>${i}</li>`).join('')}</ul></div>`}function cardioBlock(w){return `<div class="block"><h4>Cardio Primer</h4><span class="time">${w.cardioMins} min</span><ul>${w.cardio.map(i=>`<li>${i}</li>`).join('')}</ul></div>`}
+function card(w){const e=document.createElement('article');e.className='card';e.innerHTML=`<div class="banner"><span class="tag">${w.intensity}</span><span>${w.total}</span></div><h3>${w.title}</h3><p>${w.subtitle}<br><b>${w.focus}</b> • Cardio first: ${w.cardioMins} min</p><div class="pill-row"><span class="pill">Block 1: ${w.blocks[0].time} min</span><span class="pill">Block 2: ${w.blocks[1].time} min</span><span class="pill">Core: ${w.blocks[2].time} min</span></div><button style="margin-top:14px">Open Workout</button>`;e.querySelector('button').onclick=()=>openWorkout(w.id);return e}
+function openWorkout(id){const w=WORKOUTS.find(x=>x.id===id),m=document.createElement('div');m.className='modal';m.innerHTML=`<div class="modal-content"><div class="modal-head"><div><p class="eyebrow">${w.intensity} • ${w.focus}</p><h2>${w.title}</h2><p class="muted">${w.subtitle}. Total time: ${w.total}.</p></div><button class="ghost" onclick="this.closest('.modal').remove()">Close</button></div><div class="gtx-screen">${cardioBlock(w)}${w.blocks.map(blockHtml).join('')}</div><h3 style="margin-top:18px">Starting Targets</h3><div class="targets">${Object.entries(w.targets).map(([k,v])=>`<div class="target"><span>${k}</span><strong>${v}</strong></div>`).join('')}</div><div style="display:flex;gap:12px;margin-top:20px;flex-wrap:wrap"><button onclick="loadTimer('${w.id}');showPage('timer');this.closest('.modal').remove()">Start Timer</button><button class="ghost" onclick="prepWorkoutLog('${w.id}');showPage('log');this.closest('.modal').remove()">Log This</button></div></div>`;m.onclick=e=>{if(e.target===m)m.remove()};document.body.appendChild(m)}
+function renderWorkouts(){const focus=$('#focusFilter').value,intensity=$('#intensityFilter').value,cardio=$('#cardioFilter').value;let list=WORKOUTS.filter(w=>(focus==='All'||w.focus===focus)&&(intensity==='all'||w.intensity===intensity)&&(cardio==='all'||String(w.cardioMins)===cardio));$('#workoutList').innerHTML='';list.forEach(w=>$('#workoutList').appendChild(card(w)))}
+function populate(){$('#focusFilter').innerHTML=focusOptions.map(x=>`<option>${x}</option>`).join('');['#timerSelect','#logWorkoutSelect'].forEach(sel=>$(sel).innerHTML=WORKOUTS.map(w=>`<option value="${w.id}">${w.focus} — ${w.title}</option>`).join('')+`<option value="class">Class / Other</option>`);$('#focusFilter').onchange=renderWorkouts;$('#intensityFilter').onchange=renderWorkouts;$('#cardioFilter').onchange=renderWorkouts;$('#timerSelect').onchange=()=>{updateTimerDetail();resetTimer()};renderWorkouts();$('#recommendedCards').innerHTML='';['fullbody-power-1','chest-power-1','back-resistance-1'].map(id=>WORKOUTS.find(w=>w.id===id)).forEach(w=>$('#recommendedCards').appendChild(card(w)));prepWorkoutLog('fullbody-power-1');prepBodyLog();updateTimerDetail();renderLogs();updateMetrics()}
+function prepWorkoutLog(id){$('#logWorkoutSelect').value=id;$('#workoutLogForm').date.value=new Date().toISOString().slice(0,10)}window.prepWorkoutLog=prepWorkoutLog;function prepBodyLog(){$('#bodyLogForm').date.value=new Date().toISOString().slice(0,10)}
+$('#workoutLogForm').onsubmit=e=>{e.preventDefault();const data=Object.fromEntries(new FormData(e.target).entries()),logs=getWorkouts();logs.push(data);saveWorkouts(logs);e.target.reset();prepWorkoutLog(data.workoutId||'fullbody-power-1');renderLogs();updateMetrics();alert('Workout saved.')};
+$('#bodyLogForm').onsubmit=e=>{e.preventDefault();const data=Object.fromEntries(new FormData(e.target).entries()),logs=getBody();logs.push(data);saveBody(logs);e.target.reset();prepBodyLog();renderLogs();updateMetrics();drawCharts();alert('Body entry saved.')};
+function workoutName(id){const w=WORKOUTS.find(x=>x.id===id);return w?w.title:'Class / Other'}function renderLogs(){const wl=getWorkouts().slice().reverse(),bl=getBody().slice().reverse();$('#recentWorkouts').innerHTML=wl.length?wl.slice(0,10).map(l=>`<div class="logrow"><strong>${l.date}</strong><span>${l.sessionType}</span><span>RPE ${l.rpe||'—'}</span><span>${l.calories||'—'} cal</span><span>${workoutName(l.workoutId)} ${l.notes?('— '+l.notes):''}</span></div>`).join(''):'<p class="muted">No workouts logged yet.</p>';$('#recentBody').innerHTML=bl.length?bl.slice(0,10).map(l=>`<div class="bodyrow"><strong>${l.date}</strong><span>${l.weight||'—'} lb</span><span>Waist ${l.waist||'—'}</span><span>BF ${l.bodyFat||'—'}%</span><span>${l.notes||''}</span></div>`).join(''):'<p class="muted">No body entries yet. Add morning weight here.</p>'}
+function updateMetrics(){const wl=getWorkouts(),bl=getBody(),lastB=bl.at(-1),lastW=wl.at(-1);const weights=bl.map(x=>+x.weight).filter(Boolean),last7=weights.slice(-7);$('#metricWeight').textContent=lastB?.weight?`${lastB.weight} lb`:'—';$('#metricAvgWeight').textContent=last7.length?(last7.reduce((a,b)=>a+b,0)/last7.length).toFixed(1)+' lb':'—';$('#metricCalories').textContent=lastW?.calories||'—';$('#homeDone').textContent=wl.filter(x=>x.sessionType==='Home Workout').length;$('#metricClasses').textContent=wl.filter(x=>x.sessionType==='GTX Class'||x.sessionType==='CTR Pilates').length}
+function exportAll(){const data={workoutLogs:getWorkouts(),bodyLogs:getBody(),exportedAt:new Date().toISOString()};const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='project180-data.json';a.click()}window.exportAll=exportAll;
+function loadTimer(id){$('#timerSelect').value=id;updateTimerDetail();resetTimer()}window.loadTimer=loadTimer;function updateTimerDetail(){let w=WORKOUTS.find(x=>x.id===$('#timerSelect').value)||WORKOUTS[0];$('#timerDetail').innerHTML=`<p class="eyebrow">${w.intensity} • ${w.focus}</p><h2 style="font-size:28px">${w.title}</h2><div class="gtx-screen" style="grid-template-columns:1fr 1fr">${cardioBlock(w)}${w.blocks.map(blockHtml).join('')}</div>`;timer.steps=[['Cardio Primer',w.cardioMins*60,w.cardio.join(' • ')]].concat(w.blocks.map(b=>[b.name,b.time*60,b.items.join(' • ')]),[['Cooldown',180,'Walk easy. Bring HR down. Log workout.']]);timer.idx=0;timer.sec=timer.steps[0][1];updateTimerUI()}
+function updateTimerUI(){const s=timer.steps[timer.idx]||['Ready',0,''];$('#timerLabel').textContent=s[0];$('#timerText').textContent=s[2];$('#timerDisplay').textContent=String(Math.floor(timer.sec/60)).padStart(2,'0')+':'+String(timer.sec%60).padStart(2,'0')}function startTimer(){clearInterval(timer.int);timer.int=setInterval(()=>{timer.sec--;if(timer.sec<=0)nextStep();updateTimerUI()},1000)}window.startTimer=startTimer;function pauseTimer(){clearInterval(timer.int)}window.pauseTimer=pauseTimer;function resetTimer(){clearInterval(timer.int);timer.idx=0;timer.sec=timer.steps[0]?.[1]||0;updateTimerUI()}window.resetTimer=resetTimer;function nextStep(){timer.idx=Math.min(timer.idx+1,timer.steps.length-1);timer.sec=timer.steps[timer.idx][1];updateTimerUI()}window.nextStep=nextStep;
+function drawChart(canvas,values,suffix){const ctx=canvas.getContext('2d');ctx.clearRect(0,0,canvas.width,canvas.height);ctx.fillStyle='#0f151e';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.strokeStyle='#2b3a4c';ctx.lineWidth=1;for(let i=0;i<5;i++){let y=30+i*45;ctx.beginPath();ctx.moveTo(45,y);ctx.lineTo(canvas.width-20,y);ctx.stroke()}ctx.font='14px system-ui';if(values.length<2){ctx.fillStyle='#9aabba';ctx.fillText('Add at least two entries to draw trend.',55,130);return}const min=Math.min(...values),max=Math.max(...values),range=Math.max(1,max-min),step=(canvas.width-80)/(values.length-1);ctx.strokeStyle='#38a8ff';ctx.lineWidth=4;ctx.beginPath();values.forEach((v,i)=>{let x=45+i*step,y=220-((v-min)/range)*170;i?ctx.lineTo(x,y):ctx.moveTo(x,y)});ctx.stroke();ctx.fillStyle='#8ed8ff';values.forEach((v,i)=>{let x=45+i*step,y=220-((v-min)/range)*170;ctx.beginPath();ctx.arc(x,y,5,0,Math.PI*2);ctx.fill()});ctx.fillStyle='#f6f9fd';ctx.fillText(`${min}${suffix} - ${max}${suffix}`,55,24)}function drawCharts(){drawChart($('#weightChart'),getBody().map(x=>+x.weight).filter(Boolean),' lb');drawChart($('#calChart'),getWorkouts().map(x=>+x.calories).filter(Boolean),' cal')}populate();
+</script>
 </body>
 </html>
