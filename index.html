@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Project 180 | Home HIIT</title>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">180</div>
+        <div>
+          <h1>Project 180</h1>
+          <p>Home HIIT System</p>
+        </div>
+      </div>
+      <nav>
+        <button class="nav active" data-page="dashboard">Dashboard</button>
+        <button class="nav" data-page="workouts">Workouts</button>
+        <button class="nav" data-page="timer">Timer</button>
+        <button class="nav" data-page="log">Log</button>
+        <button class="nav" data-page="progress">Progress</button>
+      </nav>
+      <div class="side-card">
+        <strong>Goal</strong>
+        <span>180–185 lb • visible abs • stronger upper body</span>
+      </div>
+    </aside>
+
+    <main>
+      <section id="dashboard" class="page active">
+        <div class="hero">
+          <div>
+            <p class="eyebrow">Weeks 1–4</p>
+            <h2>Upper body + abs biased HIIT built around your home gym.</h2>
+            <p class="hero-text">GTX-style blocks, treadmill substitutions for sled work, progressive overload, and local tracking.</p>
+          </div>
+          <div class="hero-panel">
+            <span class="big-number" id="completionPct">0%</span>
+            <span>Workout completion</span>
+          </div>
+        </div>
+
+        <div class="metrics-grid">
+          <div class="metric"><span>Workouts Done</span><strong id="workoutsDone">0 / 20</strong></div>
+          <div class="metric"><span>Last Weight</span><strong id="lastWeight">—</strong></div>
+          <div class="metric"><span>Avg RPE</span><strong id="avgRpe">—</strong></div>
+          <div class="metric"><span>Last Calories</span><strong id="lastCalories">—</strong></div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h3>This Week</h3>
+            <button class="ghost" onclick="window.app.showPage('workouts')">Open Workouts</button>
+          </div>
+          <div id="weekCards" class="week-cards"></div>
+        </div>
+      </section>
+
+      <section id="workouts" class="page">
+        <div class="topline">
+          <div>
+            <p class="eyebrow">Program</p>
+            <h2>Workout Library</h2>
+          </div>
+          <select id="weekFilter">
+            <option value="1">Week 1</option>
+            <option value="2">Week 2</option>
+            <option value="3">Week 3</option>
+            <option value="4">Week 4</option>
+          </select>
+        </div>
+        <div id="workoutList" class="workout-list"></div>
+      </section>
+
+      <section id="timer" class="page">
+        <div class="topline">
+          <div>
+            <p class="eyebrow">Training Mode</p>
+            <h2>Workout Timer</h2>
+          </div>
+          <select id="timerWorkoutSelect"></select>
+        </div>
+
+        <div class="timer-layout">
+          <div class="timer-card">
+            <span id="timerLabel">Ready</span>
+            <strong id="timerDisplay">00:00</strong>
+            <p id="timerStep">Choose a workout and press Start Block.</p>
+            <div class="timer-buttons">
+              <button onclick="window.app.startTimer()">Start Block</button>
+              <button class="secondary" onclick="window.app.pauseTimer()">Pause</button>
+              <button class="secondary" onclick="window.app.nextTimerStep()">Next</button>
+              <button class="danger" onclick="window.app.resetTimer()">Reset</button>
+            </div>
+          </div>
+          <div class="panel">
+            <h3>Current Workout</h3>
+            <div id="timerWorkoutDetail"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="log" class="page">
+        <div class="topline">
+          <div>
+            <p class="eyebrow">Track</p>
+            <h2>Log Workout</h2>
+          </div>
+        </div>
+        <form id="logForm" class="log-form">
+          <label>Workout
+            <select name="workoutId" id="logWorkoutSelect"></select>
+          </label>
+          <label>Date
+            <input name="date" type="date" required>
+          </label>
+          <label>Morning weight
+            <input name="weight" type="number" step="0.1" placeholder="194.9">
+          </label>
+          <label>Calories burned
+            <input name="calories" type="number" placeholder="650">
+          </label>
+          <label>Avg HR
+            <input name="avgHr" type="number" placeholder="142">
+          </label>
+          <label>RPE 1–10
+            <input name="rpe" type="number" min="1" max="10" placeholder="8">
+          </label>
+          <label class="wide">Notes
+            <textarea name="notes" placeholder="Weights used, pain, energy, what to adjust next time..."></textarea>
+          </label>
+          <button type="submit">Save Workout</button>
+        </form>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h3>Recent Logs</h3>
+            <button class="ghost" onclick="window.app.exportLogs()">Export JSON</button>
+          </div>
+          <div id="recentLogs"></div>
+        </div>
+      </section>
+
+      <section id="progress" class="page">
+        <div class="topline">
+          <div>
+            <p class="eyebrow">Dashboard</p>
+            <h2>Progress</h2>
+          </div>
+          <button class="ghost" onclick="window.print()">Print</button>
+        </div>
+        <div class="chart-grid">
+          <div class="panel">
+            <h3>Body Weight Trend</h3>
+            <canvas id="weightChart" width="600" height="260"></canvas>
+          </div>
+          <div class="panel">
+            <h3>Calories Burned</h3>
+            <canvas id="calChart" width="600" height="260"></canvas>
+          </div>
+        </div>
+        <div class="panel">
+          <h3>Weekly Review Rules</h3>
+          <div class="rules">
+            <div><strong>If weight is dropping &gt;2 lb/week:</strong><span>Keep training intensity but watch recovery and protein.</span></div>
+            <div><strong>If weight is flat 10+ days:</strong><span>Add 10 min Zone 2 after two sessions or tighten weekend calories.</span></div>
+            <div><strong>If strength drops 2 workouts in a row:</strong><span>Reduce sprint volume by 20% for one week.</span></div>
+            <div><strong>If abs are the focus:</strong><span>Do core with control. No sloppy reps just to feel burn.</span></div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <template id="workoutTemplate">
+    <article class="workout-card">
+      <div class="workout-banner">
+        <span class="tag"></span>
+        <span class="duration"></span>
+      </div>
+      <h3></h3>
+      <p></p>
+      <button>Open</button>
+    </article>
+  </template>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
