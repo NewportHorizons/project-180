@@ -238,7 +238,15 @@
     </section>
 
     <section id="progress" class="page">
-      <div class="top"><div><p class="eyebrow">Dashboard</p><h2>Progress</h2></div><button class="ghost" onclick="window.print()">Print</button></div>
+      <div class="top">
+        <div><p class="eyebrow">Dashboard</p><h2>Progress</h2></div>
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+          <label style="display:grid;gap:6px;color:var(--muted);font-size:13px;min-width:160px">Year
+            <select id="progressYearFilter"></select>
+          </label>
+          <button class="ghost" onclick="window.print()">Print</button>
+        </div>
+      </div>
       <div class="chart-grid">
         <div class="panel"><h3>Body Weight Trend</h3><canvas id="weightChart" width="600" height="260"></canvas></div>
         <div class="panel"><h3>Calories In</h3><canvas id="calsInChart" width="600" height="260"></canvas></div>
@@ -439,6 +447,34 @@ function pauseTimer(){clearInterval(timer.int)} window.pauseTimer=pauseTimer;
 function resetTimer(){clearInterval(timer.int); timer.idx=0; timer.sec=timer.steps[0]?.[1]||0; updateTimerUI()} window.resetTimer=resetTimer;
 function nextStep(){timer.idx=Math.min(timer.idx+1,timer.steps.length-1); timer.sec=timer.steps[timer.idx][1]; updateTimerUI()} window.nextStep=nextStep;
 
+function recordYear(dateStr){
+  const y = String(dateStr||'').slice(0,4);
+  return /^\d{4}$/.test(y) ? y : '';
+}
+function selectedProgressYear(){
+  const el = document.querySelector('#progressYearFilter');
+  return el ? el.value : 'all';
+}
+function filterByProgressYear(list){
+  const y = selectedProgressYear();
+  if(!y || y === 'all') return list;
+  return list.filter(x => recordYear(x.date) === y);
+}
+function populateProgressYearFilter(){
+  const el = document.querySelector('#progressYearFilter');
+  if(!el) return;
+  const current = el.value || 'all';
+  const years = new Set();
+  [...getBody(), ...getMacros(), ...getWorkouts()].forEach(x => {
+    const y = recordYear(x.date);
+    if(y) years.add(y);
+  });
+  const sorted = [...years].sort((a,b)=>Number(b)-Number(a));
+  el.innerHTML = '<option value="all">All Years</option>' + sorted.map(y => `<option value="${y}">${y}</option>`).join('');
+  if(current && [...el.options].some(o => o.value === current)) el.value = current;
+  else if(sorted.includes(String(new Date().getFullYear()))) el.value = String(new Date().getFullYear());
+  else el.value = 'all';
+}
 function drawChart(canvas,values,suffix){
   const ctx=canvas.getContext('2d'); ctx.clearRect(0,0,canvas.width,canvas.height); ctx.fillStyle='#0f151e'; ctx.fillRect(0,0,canvas.width,canvas.height);
   ctx.strokeStyle='#2b3a4c'; ctx.lineWidth=1; for(let i=0;i<5;i++){let y=30+i*45; ctx.beginPath(); ctx.moveTo(45,y); ctx.lineTo(canvas.width-20,y); ctx.stroke();}
@@ -449,12 +485,20 @@ function drawChart(canvas,values,suffix){
   ctx.fillStyle='#f6f9fd'; ctx.fillText(`${Math.round(min*10)/10}${suffix} - ${Math.round(max*10)/10}${suffix}`,55,24);
 }
 function drawCharts(){
-  drawChart($('#weightChart'),getBody().map(x=>+x.weight).filter(Boolean),' lb');
-  drawChart($('#calsInChart'),getMacros().map(x=>+x.cals).filter(Boolean),' kcal');
-  drawChart($('#proteinChart'),getMacros().map(x=>+x.protein).filter(Boolean),' g');
-  drawChart($('#calBurnChart'),getWorkouts().map(x=>+x.calories).filter(Boolean),' cal');
+  populateProgressYearFilter();
+  const body = filterByProgressYear(getBody());
+  const macros = filterByProgressYear(getMacros());
+  const workouts = filterByProgressYear(getWorkouts());
+  drawChart($('#weightChart'),body.map(x=>+x.weight).filter(Boolean),' lb');
+  drawChart($('#calsInChart'),macros.map(x=>+x.cals).filter(Boolean),' kcal');
+  drawChart($('#proteinChart'),macros.map(x=>+x.protein).filter(Boolean),' g');
+  drawChart($('#calBurnChart'),workouts.map(x=>+x.calories).filter(Boolean),' cal');
 }
+document.addEventListener('change', e => {
+  if(e.target && e.target.id === 'progressYearFilter') drawCharts();
+});
 populate();
+populateProgressYearFilter();
 </script>
 </body>
 </html>
